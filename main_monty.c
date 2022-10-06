@@ -16,18 +16,15 @@ int main(int argc, char **argv)
 	int line_number = 0, flag = 0, flag2 = 0;
 	ssize_t line_size;
 	stack_t *stack = NULL;
-	
+
 	if (argc != 2)
 		stderr_usage();
 	globalvar.fd = fopen(argv[1], "r");
-	
 	if (globalvar.fd == NULL)
 		stderr_fopen(argv[1]);
 	line_size = getline(&globalvar.line_buf, &line_buf_size, globalvar.fd);
-	
 	if (globalvar.line_buf[0] == '#')
 		line_size = getline(&globalvar.line_buf, &line_buf_size, globalvar.fd);
-	
 	while (line_size >= 0)
 	{flag = 0;
 		flag2 = 0;
@@ -42,15 +39,15 @@ int main(int argc, char **argv)
 			if (token[0] == '#')
 			{
 				line_size = getline(&globalvar.line_buf,
-						&line_buf_size, globalvar.fd);
+						    &line_buf_size, globalvar.fd);
 				flag = 1; }}
 		if (flag == 0)
 		{get_builtin(token, &stack, line_number);
 			line_size = getline(&globalvar.line_buf, &line_buf_size,
-					globalvar.fd); }}
-			free_dlistint(stack);
-			free(globalvar.line_buf);
-			globalvar.line_buf = NULL;
-			fclose(globalvar.fd);
-			return (EXIT_SUCCESS);
+					    globalvar.fd); }}
+	free_dlistint(stack);
+	free(globalvar.line_buf);
+	globalvar.line_buf = NULL;
+	fclose(globalvar.fd);
+	return (EXIT_SUCCESS);
 }
